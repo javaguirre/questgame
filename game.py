@@ -4,12 +4,15 @@ import sys
 import pygame
 from pygame.locals import *
 
-from utils import wrap_text, load_image
+from utils import wrap_text, load_image, load_dialogs
 from questmap import Map
 from mapobj import Tree, Guy, RemoteGuy
 from remote import RemoteGame
 
 from events import EventManager, Event
+
+
+DIALOGS_FILE = "dialogs.yml"  # This could be in a config file
 
 
 class Game:
@@ -24,6 +27,9 @@ class Game:
         self.mode = "GAME"
         self.server = server
         self.player_name = player
+        # DIALOGS!
+        self.dialogs = load_dialogs(DIALOGS_FILE)
+        print self.dialogs
 
         self.remote_game = None
         if self.server:

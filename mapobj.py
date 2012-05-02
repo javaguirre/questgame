@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 '''
 Generic map object to inheritance
 '''
@@ -117,7 +118,7 @@ class MapObj(pygame.sprite.Sprite):
 
 
 class Tree(MapObj):
-    def __init__(self, game):
+    def __init__(self, game, *args, **kwargs):
         super(Tree, self).__init__("Tree Short.png", game)
 
     def collision(self, obj):
@@ -138,6 +139,10 @@ class Guy(MapObj):
         self.screen = self.game.screen
         self.name = "Player"
         self.image_bak = self.image
+        try:
+            self.dialogs = self.game.dialogs[self.slug_name()]
+        except KeyError:
+            self.dialogs = ""
 
     def set_name(self, name):
         self.name = name
@@ -147,6 +152,13 @@ class Guy(MapObj):
         w, h = self.game.font.size(self.name)
         w = w / 2.0
         self.image.blit(font_surface, (self.image.get_width() / 2.0 - w, self.image.get_height() - h - 10))
+
+    def slug_name(self):
+        """
+           Key name to search for its dialog.
+           It's like a slugified name
+        """
+        return self.name.lower().replace(" ", "_")
 
     def move(self, events):
         r = self.rect.copy()
@@ -204,6 +216,10 @@ class Guy(MapObj):
 
         self.move(events)
 
+    def talk(self, sentence=""):
+        text = sentence or self.dialogs
+        self.set_text(text)
+
 
 class RemoteGuy(Guy):
     def __init__(self, idx, game, *args, **kwargs):
@@ -223,5 +239,5 @@ class RemoteGuy(Guy):
         self.movements[self.movement](self)
 
     def collision(self, obj):
-        self.set_text("Hola, me llamo %s" % self.name)
+        self.talk()
         return False

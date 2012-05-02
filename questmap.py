@@ -107,11 +107,11 @@ class Map:
             return False
 
         if self.bricks[y][x] > 3:
-            return self.chech_collisions(obj)
+            return self.check_collisions(obj)
         else:
             return False
 
-    def chech_collisions(self, obj):
+    def check_collisions(self, obj):
         for o in self.objects:
             if o == obj:
                 continue

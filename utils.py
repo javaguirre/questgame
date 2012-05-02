@@ -5,6 +5,7 @@ Utils functions for general purpose
 import os
 import pygame
 from pygame.locals import *
+import yaml
 
 
 def wrap_text(font, text, max):
@@ -43,3 +44,8 @@ def load_image(name, colorkey=None):
 def characters():
     names = [name for name in os.listdir('data') if name.startswith("Character")]
     return sorted(names)
+
+
+def load_dialogs(dialog_file):
+    dialogs = yaml.load(open(dialog_file).read())
+    return dialogs
