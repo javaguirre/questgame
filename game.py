@@ -82,6 +82,8 @@ class Game:
                 self.mode = "CHAT"
                 self.text = ""
                 pygame.key.set_repeat(300, 10)
+            elif event.key == K_t:
+                self.mode = "TALK"
 
             self.events[event.key] = False
 
@@ -104,6 +106,14 @@ class Game:
 
             if len(self.text) < 141:
                 self.text += t
+
+    def manage_talk(self, event):
+        # TODO Logic for closing talk bubble and coming back to GAME
+        if event.type == KEYDOWN and event.key == K_ESCAPE:
+            self.mode = "GAME"
+        if event.type == KEYDOWN:
+            if event.key == K_x:  # We will change keys in the future
+                self.mode = "GAME"
 
     def paint_chat(self):
         self.screen.blit(self.chat_surface, (0, self.screen.get_height() - self.chat_surface.get_height()))
@@ -129,6 +139,8 @@ class Game:
                     self.manage_game(event)
                 if self.mode == "CHAT":
                     self.manage_chat(event)
+                if self.mode == "TALK":
+                    self.manage_talk(event)
 
             self.map.update(self.events)
 

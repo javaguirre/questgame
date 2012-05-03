@@ -1,3 +1,14 @@
-cat_girl: "Welcome to QuestGame!"
+cat_girl:
+  welcome: Welcome to QuestGame!
 
-player: "Hello World!"
+player:
+  welcome: Hello World!
+
+bat_boy:
+  welcome: Hey oh! Let's go!
+  step1:
+    intro: Who do you love more?
+    1: Tux
+    2: Stallman
+    resp_1: Are you zoofilic?
+    resp_2: Do you like beards or what?

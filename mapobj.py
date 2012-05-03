@@ -72,7 +72,7 @@ class MapObj(pygame.sprite.Sprite):
 
             screen.blit(self.text_surface, (x, y))
 
-    def set_text(self, text):
+    def set_text(self, text, colour=(0, 0, 0)):
         self.text_flipped = False
         self.text_surface = self.text_img.copy()
         sx, sy = self.map_pos()
@@ -91,7 +91,7 @@ class MapObj(pygame.sprite.Sprite):
             texts = [self.text]
 
         for i, t in enumerate(texts):
-            font_surface = self.font.render(t, True, pygame.Color(0, 0, 0))
+            font_surface = self.font.render(t, True, pygame.Color(*colour))
             self.text_surface.blit(font_surface, (20, (i + 1) * margin))
 
         self.text_counter = 100 + len(text) * 3
@@ -216,9 +216,21 @@ class Guy(MapObj):
 
         self.move(events)
 
-    def talk(self, sentence=""):
-        text = sentence or self.dialogs
-        self.set_text(text)
+    def talk(self, talk_event="welcome"):
+        '''
+            A dialog could be just a sentence, or a list of sentences,
+            even conditional ones, to give the player the chance to choose
+        '''
+        if type(self.dialogs[talk_event]) == type([]):
+            for sentence in self.dialogs[talk_event]:
+                self.set_text(sentence, (0, 255, 0))
+        else:
+            # TODO if a dialog has a list, there are choices to make
+            # TODO we can use by now the key t to talk
+            # TODO check for players orientation
+            # TODO In the talk event, we capture MOUSEEVENTS to click
+            # and Move to another event
+            self.set_text(self.dialogs[talk_event], (255, 0, 0))
 
 
 class RemoteGuy(Guy):
