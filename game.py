@@ -29,7 +29,6 @@ class Game:
         self.player_name = player
         # DIALOGS!
         self.dialogs = load_dialogs(DIALOGS_FILE)
-        print self.dialogs
 
         self.remote_game = None
         if self.server:
@@ -109,10 +108,18 @@ class Game:
 
     def manage_talk(self, event):
         # TODO Logic for closing talk bubble and coming back to GAME
+        # TODO This will be a guys list in the future and
+        # we could stop the remote guy talking in a scene
+        # TODO Control if there is a remote guy in the player direction
+        last_movement = self.guy2.movement
+        self.guy2.movement = 'no'
+
         if event.type == KEYDOWN and event.key == K_ESCAPE:
             self.mode = "GAME"
         if event.type == KEYDOWN:
             if event.key == K_x:  # We will change keys in the future
+                self.guy2.movement = last_movement
+                #self.guy2.move(event)
                 self.mode = "GAME"
 
     def paint_chat(self):
